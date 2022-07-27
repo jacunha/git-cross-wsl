@@ -1,0 +1,12 @@
+# Pass all arguments to git.
+# The wsl can looks for binaries in all environment PATH variables
+# of the Windows.
+output=$(git "$@")
+# Perform UNIX->WINDOWS syntax replacements.
+output="${output//$'\n'/$'\r'$'\n'}"
+output="${output//\/mnt\/c/C:}"
+if [[ ! $@ =~ "help" ]]; then
+    output="${output//\//\\}"
+fi
+# fixed output.
+echo "$output"
